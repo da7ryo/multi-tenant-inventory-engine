@@ -16,4 +16,5 @@ tenantsRoutes
 tenantsRoutes
   .route("/:id")
   .get(validateTenantGetReqInput, tenantsController.getTenant)
-  .patch(validateTenantUpdateReqInput, tenantsController.updateTenant);
+  .patch(validateTenantUpdateReqInput, tenantsController.updateTenant)
+  .delete(validateTenantGetReqInput, tenantsController.deleteTenant);

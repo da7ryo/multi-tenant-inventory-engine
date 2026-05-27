@@ -20,3 +20,9 @@ export async function updateTenant(id: string, inputData: TenantUpdateReqBody) {
   const tenant = await tenantsRepo.updateTenantById(id, inputData);
   return tenant;
 }
+
+export async function deleteTenant(id: string) {
+  const tenant = await tenantsRepo.deleteTenantById(id);
+
+  return tenant;
+}

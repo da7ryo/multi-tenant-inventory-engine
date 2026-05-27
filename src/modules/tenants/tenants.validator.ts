@@ -11,3 +11,7 @@ export const tenantGetReqParamsValidator = z.object({
 export const tenantUpdateReqBodyValidator = z.object({
   name: string().min(1, "Name must at least have one letter").optional(),
 });
+
+export const tenantDeleteReqParamsValidator = z.object({
+  id: string(),
+});

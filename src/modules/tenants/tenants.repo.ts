@@ -30,3 +30,12 @@ export async function updateTenantById(
 
   return tenant || null;
 }
+
+export async function deleteTenantById(id: string) {
+  const [tenant] = await db
+    .delete(tenants)
+    .where(eq(tenants.id, id))
+    .returning();
+
+  return tenant || null;
+}
