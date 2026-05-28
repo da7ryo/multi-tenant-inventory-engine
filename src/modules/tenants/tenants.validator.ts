@@ -1,7 +1,9 @@
 import { string, z } from "zod";
 
 export const tenantCreateReqBodyValidator = z.object({
-  name: z.string().min(1, "Name must at least have one letter"),
+  name: z
+    .string("Name is required.")
+    .min(1, "Name must at least have one letter."),
 });
 
 export const tenantGetReqParamsValidator = z.object({
@@ -9,9 +11,5 @@ export const tenantGetReqParamsValidator = z.object({
 });
 
 export const tenantUpdateReqBodyValidator = z.object({
-  name: string().min(1, "Name must at least have one letter").optional(),
-});
-
-export const tenantDeleteReqParamsValidator = z.object({
-  id: string(),
+  name: string().min(1, "Name must at least have one letter.").optional(),
 });

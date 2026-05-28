@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import * as tenantsService from "./tenants.service";
 import {
   TenantCreateReqBody,
-  TenantDeleteReqParams,
   TenantGetReqParams,
   TenantUpdateReqBody,
 } from "./tenants.types";
@@ -37,7 +36,7 @@ export async function updateTenant(req: Request, res: Response) {
 }
 
 export async function deleteTenant(req: Request, res: Response) {
-  const { id } = req.params as TenantDeleteReqParams;
+  const { id } = req.params as TenantGetReqParams;
   const tenant = await tenantsService.deleteTenant(id);
 
   res.json(tenant);
