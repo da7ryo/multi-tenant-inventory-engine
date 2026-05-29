@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { error } from "node:console";
 import { ZodError } from "zod";
+import { AppError } from "./app-error";
+import { HttpStatusCode, HttpStatusCodeText } from "../http";
+import { parseError } from "./error.utils";
 
 export function errorMiddleware(
   err: Error,
@@ -8,10 +10,20 @@ export function errorMiddleware(
   res: Response,
   _next: NextFunction,
 ) {
-  if (err instanceof ZodError) {
-    console.log(err.issues);
-    const message = err.issues.map((issue) => issue.message).join(" ");
-    return res.json({ message });
+  const error = parseError(err);
+
+  if (error instanceof AppError) {
+    return res.status(error.statusCode).json({
+      status: error.status,
+      message: error.message,
+      ...(error.payload ? { payload: error.payload } : {}),
+    });
   }
-  res.json({ message: "Dario" });
+
+  console.error("ERROR 💥", error);
+
+  return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+    status: HttpStatusCodeText.ERROR,
+    message: "Something went wrong!",
+  });
 }

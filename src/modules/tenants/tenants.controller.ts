@@ -6,6 +6,7 @@ import {
   TenantUpdateReqBody,
 } from "./tenants.types";
 import { id } from "zod/locales";
+import { HttpStatusCode } from "../../core/http";
 
 export async function getTenants(_req: Request, res: Response) {
   const tenants = await tenantsService.getTenants();
@@ -16,14 +17,14 @@ export async function createTenant(req: Request, res: Response) {
   const tenant = req.body as TenantCreateReqBody;
 
   const createdTenant = await tenantsService.createTenant(tenant);
-  res.json(createdTenant);
+  res.status(HttpStatusCode.CREATED).json(createdTenant);
 }
 
 export async function getTenant(req: Request, res: Response) {
   const { id } = req.params as TenantGetReqParams;
   const tenant = await tenantsService.getTenant(id);
 
-  res.json(tenant);
+  res.status(HttpStatusCode.OK).json(tenant);
 }
 
 export async function updateTenant(req: Request, res: Response) {
@@ -32,12 +33,12 @@ export async function updateTenant(req: Request, res: Response) {
 
   const tenant = await tenantsService.updateTenant(id, tenantUpdateInput);
 
-  res.json(tenant);
+  res.status(HttpStatusCode.OK).json(tenant);
 }
 
 export async function deleteTenant(req: Request, res: Response) {
   const { id } = req.params as TenantGetReqParams;
-  const tenant = await tenantsService.deleteTenant(id);
+  await tenantsService.deleteTenant(id);
 
-  res.json(tenant);
+  res.status(HttpStatusCode.NO_CONTENT).json(null);
 }
