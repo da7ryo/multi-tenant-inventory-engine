@@ -1,4 +1,4 @@
-import { db, TenantCreateDb, tenants, users } from "../../core/db";
+import { db, users } from "../../core/db";
 import { eq } from "drizzle-orm";
 
 export async function findUserByEmail(email: string) {
