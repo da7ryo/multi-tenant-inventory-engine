@@ -5,12 +5,13 @@ import {
   validateTenantGetReqInput,
   validateTenantUpdateReqInput,
 } from "./tenants.middleware";
+import * as authController from "../auth/auth.cotroller";
 
 export const tenantsRoutes = Router();
 
 tenantsRoutes
   .route("/")
-  .get(tenantsController.getTenants)
+  .get(authController.protect, tenantsController.getTenants)
   .post(validateTenantCreateReqInput, tenantsController.createTenant);
 
 tenantsRoutes

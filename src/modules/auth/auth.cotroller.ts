@@ -1,8 +1,14 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { getUserByEmail } from "../users/users.service";
 import { AppError } from "../../core/error/app-error";
 import { HttpStatusCode } from "../../core/http";
-import { compareHashedData, createToken, hashInputData } from "./auth.utils";
+import {
+  compareHashedData,
+  createToken,
+  decodeToken,
+  hashInputData,
+} from "./auth.utils";
+import { email } from "zod";
 
 export async function login(req: Request, res: Response) {
   const { email, password } = req.body;
@@ -20,4 +26,37 @@ export async function login(req: Request, res: Response) {
   const token = createToken(user);
 
   return res.json({ token });
+}
+
+export async function protect(req: Request, res: Response, next: NextFunction) {
+  let token;
+
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    token = req.headers.authorization.split(" ")[1];
+  }
+
+  if (!token)
+    throw new AppError(
+      "You are not logged in. Please log in to get access",
+      HttpStatusCode.UNAUTHORIZED,
+    );
+
+  const decoded = await decodeToken(token);
+
+  const currentUser = await getUserByEmail(decoded.email);
+
+  if (!currentUser)
+    throw new AppError(
+      "User belonging to this tokn does not longer exist",
+      HttpStatusCode.UNAUTHORIZED,
+    );
+
+  // TODO: add here check for password update after token was issued
+
+  res.locals.user = currentUser;
+
+  next();
 }
