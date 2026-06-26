@@ -9,7 +9,6 @@ import { id } from "zod/locales";
 import { HttpStatusCode } from "../../core/http";
 
 export async function getTenants(_req: Request, res: Response) {
-  console.log(res.locals.user);
   const tenants = await tenantsService.getTenants();
   res.json(tenants);
 }

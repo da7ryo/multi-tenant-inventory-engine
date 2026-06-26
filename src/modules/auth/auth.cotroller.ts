@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { getUserByEmail } from "../users/users.service";
+import { getUserByEmail, getUserPermissions } from "../users/users.service";
 import { AppError } from "../../core/error/app-error";
 import { HttpStatusCode } from "../../core/http";
 import {
@@ -9,6 +9,7 @@ import {
   hashInputData,
 } from "./auth.utils";
 import { email } from "zod";
+import { PermissionEnum } from "../../core/db";
 
 export async function login(req: Request, res: Response) {
   const { email, password } = req.body;
@@ -50,7 +51,7 @@ export async function protect(req: Request, res: Response, next: NextFunction) {
 
   if (!currentUser)
     throw new AppError(
-      "User belonging to this tokn does not longer exist",
+      "User belonging to this token does not longer exist",
       HttpStatusCode.UNAUTHORIZED,
     );
 
@@ -59,4 +60,22 @@ export async function protect(req: Request, res: Response, next: NextFunction) {
   res.locals.user = currentUser;
 
   next();
+}
+
+export function restrictTo(selectedPermission: PermissionEnum) {
+  return async (req: Request, res: Response, next: NextFunction) => {
+    const currentUser = res.locals.user;
+
+    const permissions = await getUserPermissions(currentUser.id);
+
+    const permission = permissions.find((p) => p.action === selectedPermission);
+
+    if (!permission) {
+      throw new AppError(
+        "You are not allowed to perform this action",
+        HttpStatusCode.FORBIDDEN,
+      );
+    }
+    next();
+  };
 }
