@@ -15,13 +15,39 @@ tenantsRoutes
   .get(
     authController.protect,
     // @ts-ignore
-    authController.restrictTo(PermissionEnum.TenantsRead),
+    authController.restrictTo([PermissionEnum.TenantsRead]),
     tenantsController.getTenants,
   )
-  .post(validateTenantCreateReqInput, tenantsController.createTenant);
+  .post(
+    authController.protect,
+    authController.restrictTo([PermissionEnum.TenantsCreate]),
+    validateTenantCreateReqInput,
+    tenantsController.createTenant,
+  );
 
 tenantsRoutes
   .route("/:id")
-  .get(validateTenantGetReqInput, tenantsController.getTenant)
-  .patch(validateTenantUpdateReqInput, tenantsController.updateTenant)
-  .delete(validateTenantGetReqInput, tenantsController.deleteTenant);
+  .get(
+    authController.protect,
+    authController.restrictTo([
+      PermissionEnum.TenantsRead,
+      PermissionEnum.TenantsReadSelf,
+    ]),
+    validateTenantGetReqInput,
+    tenantsController.getTenant,
+  )
+  .patch(
+    authController.protect,
+    authController.restrictTo([
+      PermissionEnum.TenantsUpdate,
+      PermissionEnum.TenantsUpdateSelf,
+    ]),
+    validateTenantUpdateReqInput,
+    tenantsController.updateTenant,
+  )
+  .delete(
+    authController.protect,
+    authController.restrictTo([PermissionEnum.TenantsDelete]),
+    validateTenantGetReqInput,
+    tenantsController.deleteTenant,
+  );

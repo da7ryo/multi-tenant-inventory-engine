@@ -5,7 +5,6 @@ import {
   TenantGetReqParams,
   TenantUpdateReqBody,
 } from "./tenants.types";
-import { id } from "zod/locales";
 import { HttpStatusCode } from "../../core/http";
 
 export async function getTenants(_req: Request, res: Response) {

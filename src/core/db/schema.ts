@@ -43,6 +43,14 @@ export enum PermissionEnum {
   TenantsUpdate = "tenants:update",
   TenantsUpdateSelf = "tenants:update_self",
   TenantsDelete = "tenants:delete",
+  RolesRead = "roles:read",
+  RolesReadSelf = "roles:read_self",
+  RolesCreate = "roles:create",
+  RolesCreateSelf = "roles:create_self",
+  RolesUpdate = "roles:update",
+  RolesUpdateSelf = "roles:update_self",
+  RolesDelete = "roles:delete",
+  RolesDeleteSelf = "roles:delete_self",
 }
 
 export const dbPermissionEnum = pgEnum("user_permission", [

@@ -62,13 +62,15 @@ export async function protect(req: Request, res: Response, next: NextFunction) {
   next();
 }
 
-export function restrictTo(selectedPermission: PermissionEnum) {
+export function restrictTo(selectedPermissions: PermissionEnum[]) {
   return async (req: Request, res: Response, next: NextFunction) => {
     const currentUser = res.locals.user;
 
     const permissions = await getUserPermissions(currentUser.id);
 
-    const permission = permissions.find((p) => p.action === selectedPermission);
+    const permission = permissions.find((p) =>
+      selectedPermissions.includes(p.action as PermissionEnum),
+    );
 
     if (!permission) {
       throw new AppError(
