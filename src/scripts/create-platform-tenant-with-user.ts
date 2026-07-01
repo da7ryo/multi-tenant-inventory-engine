@@ -8,6 +8,8 @@ import {
   PermissionEnum,
   rolesToPermissions,
 } from "../core/db/schema";
+import { hashInputData } from "../modules/auth/auth.utils";
+import bcrypt from "bcryptjs";
 
 async function createPlatformTenantWithUser() {
   try {
@@ -86,7 +88,7 @@ async function createPlatformTenantWithUser() {
 
     const systemAdminUser = await db.insert(users).values({
       email: "da7ryo@gmail.com",
-      password: "12345678",
+      password: await hashInputData("12345678"),
       firstName: "Dario",
       lastName: "Milanovic",
       tenantId: platformTenant.id,

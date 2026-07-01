@@ -5,6 +5,7 @@ export const roleCreateReqBodyValidator = z.object({
     .string("Name is required.")
     .min(1, "Name must at least have one letter."),
   tenantId: z.string("tenantId is required"),
+  permissions: z.array(z.string().min(1)).min(1),
 });
 
 export const roleGetReqParamsValidator = z.object({

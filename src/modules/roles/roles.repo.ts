@@ -1,14 +1,35 @@
-import { db, RoleCreateDb, roles, roles as rolesTable } from "../../core/db";
+import { db, roles as rolesTable, rolesToPermissions } from "../../core/db";
 import { eq } from "drizzle-orm";
+import { RoleCreateReqBody } from "./roles.types";
 
 export async function findRoles() {
   const roles = await db.select().from(rolesTable);
   return roles;
 }
 
-export async function createRole(role: RoleCreateDb) {
-  const [createdRole] = await db.insert(rolesTable).values(role).returning();
-  return createdRole;
+export async function createRoleWithPermissions(role: RoleCreateReqBody) {
+  return await db.transaction(async (tx) => {
+    const { permissions, ...roleData } = role;
+
+    const [createdRole] = await tx
+      .insert(rolesTable)
+      .values(roleData)
+      .returning();
+
+    if (permissions?.length) {
+      await tx.insert(rolesToPermissions).values(
+        permissions.map((permissionId) => ({
+          roleId: createdRole.id,
+          permissionId,
+        })),
+      );
+    }
+
+    return {
+      ...createdRole,
+      permissions,
+    };
+  });
 }
 
 export async function findRoleById(id: string) {

@@ -10,7 +10,7 @@ export async function getRoles() {
 }
 
 export async function createRole(role: RoleCreateReqBody) {
-  const createdRole = await rolesRepo.createRole(role);
+  const createdRole = await rolesRepo.createRoleWithPermissions(role);
   return createdRole;
 }
 
