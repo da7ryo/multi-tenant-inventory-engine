@@ -14,12 +14,18 @@ rolesRoutes
   .get(
     authController.protect,
     // @ts-ignore
-    authController.restrictTo([PermissionEnum.RolesRead]),
+    authController.restrictTo([
+      PermissionEnum.RolesRead,
+      PermissionEnum.RolesReadSelf,
+    ]),
     rolesController.getRoles,
   )
   .post(
     authController.protect,
-    authController.restrictTo([PermissionEnum.RolesCreate]),
+    authController.restrictTo([
+      PermissionEnum.RolesCreate,
+      PermissionEnum.RolesCreateSelf,
+    ]),
     validateRoleCreateReqInput,
     rolesController.createRole,
   );

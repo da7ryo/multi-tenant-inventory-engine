@@ -54,6 +54,23 @@ async function createPlatformTenantWithUser() {
           action: PermissionEnum.TenantsDelete,
           description: "Delete tenant",
         },
+        { action: PermissionEnum.RolesRead, description: "Read all roles" },
+        { action: PermissionEnum.RolesReadSelf, description: "Read own role" },
+        { action: PermissionEnum.RolesCreate, description: "Create role" },
+        {
+          action: PermissionEnum.RolesCreateSelf,
+          description: "Create own role",
+        },
+        { action: PermissionEnum.RolesUpdate, description: "Update role" },
+        {
+          action: PermissionEnum.RolesUpdateSelf,
+          description: "Update own role",
+        },
+        { action: PermissionEnum.RolesDelete, description: "Delete role" },
+        {
+          action: PermissionEnum.RolesDeleteSelf,
+          description: "Delete own role",
+        },
       ])
       .returning();
 

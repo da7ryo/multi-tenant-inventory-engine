@@ -60,6 +60,14 @@ export const dbPermissionEnum = pgEnum("user_permission", [
   PermissionEnum.TenantsUpdate,
   PermissionEnum.TenantsUpdateSelf,
   PermissionEnum.TenantsDelete,
+  PermissionEnum.RolesRead,
+  PermissionEnum.RolesReadSelf,
+  PermissionEnum.RolesCreate,
+  PermissionEnum.RolesCreateSelf,
+  PermissionEnum.RolesUpdate,
+  PermissionEnum.RolesUpdateSelf,
+  PermissionEnum.RolesDelete,
+  PermissionEnum.RolesDeleteSelf,
 ]);
 
 export const permissions = pgTable("permissions", {
