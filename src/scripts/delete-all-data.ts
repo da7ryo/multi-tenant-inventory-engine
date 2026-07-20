@@ -6,7 +6,7 @@ import {
   permissions,
   users,
   rolesToPermissions,
-} from "../core/db/schema";
+} from "../core/db/db.schema";
 
 async function deleteAllData() {
   await db.delete(tenants);

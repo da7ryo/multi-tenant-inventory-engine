@@ -7,7 +7,7 @@ import {
   users,
   PermissionEnum,
   rolesToPermissions,
-} from "../core/db/schema";
+} from "../core/db/db.schema";
 import { hashInputData } from "../modules/auth/auth.utils";
 import bcrypt from "bcryptjs";
 
