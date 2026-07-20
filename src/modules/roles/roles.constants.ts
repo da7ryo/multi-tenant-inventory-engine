@@ -1,3 +1,3 @@
 export enum ROLE_ERROR_MESSAGE {
-  RoleNotFound = "Role doens't exist",
+  RoleNotFound = "Role doesn't exist",
 }
