@@ -1,1 +1,0 @@
-ALTER TABLE "tenants" ALTER COLUMN "age" SET DATA TYPE varchar;

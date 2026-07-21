@@ -1,5 +1,5 @@
 {
-  "id": "0c375709-2bb8-492a-a30c-af2361011af1",
+  "id": "268f3562-e343-46c7-a28f-1f7574aea783",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -17,7 +17,7 @@
         },
         "action": {
           "name": "action",
-          "type": "user_permission",
+          "type": "permission_action",
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
@@ -27,6 +27,20 @@
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
         }
       },
       "indexes": {},
@@ -62,11 +76,17 @@
           "primaryKey": false,
           "notNull": true
         },
-        "tenant_id": {
-          "name": "tenant_id",
+        "description": {
+          "name": "description",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tenantId": {
+          "name": "tenantId",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "created_at": {
           "name": "created_at",
@@ -85,12 +105,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "roles_tenant_id_tenants_id_fk": {
-          "name": "roles_tenant_id_tenants_id_fk",
+        "roles_tenantId_tenants_id_fk": {
+          "name": "roles_tenantId_tenants_id_fk",
           "tableFrom": "roles",
           "tableTo": "tenants",
           "columnsFrom": [
-            "tenant_id"
+            "tenantId"
           ],
           "columnsTo": [
             "id"
@@ -182,13 +202,6 @@
           "primaryKey": false,
           "notNull": true
         },
-        "is_platform_operator": {
-          "name": "is_platform_operator",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": true,
-          "default": false
-        },
         "created_at": {
           "name": "created_at",
           "type": "timestamp with time zone",
@@ -231,30 +244,25 @@
         },
         "password": {
           "name": "password",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "first_name": {
-          "name": "first_name",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true
         },
-        "last_name": {
-          "name": "last_name",
-          "type": "varchar(255)",
+        "isActive": {
+          "name": "isActive",
+          "type": "boolean",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": false
         },
-        "tenant_id": {
-          "name": "tenant_id",
+        "roleId": {
+          "name": "roleId",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
-        "role_id": {
-          "name": "role_id",
+        "tenantId": {
+          "name": "tenantId",
           "type": "uuid",
           "primaryKey": false,
           "notNull": false
@@ -276,12 +284,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "users_tenant_id_tenants_id_fk": {
-          "name": "users_tenant_id_tenants_id_fk",
+        "users_roleId_roles_id_fk": {
+          "name": "users_roleId_roles_id_fk",
           "tableFrom": "users",
-          "tableTo": "tenants",
+          "tableTo": "roles",
           "columnsFrom": [
-            "tenant_id"
+            "roleId"
           ],
           "columnsTo": [
             "id"
@@ -289,17 +297,17 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "users_role_id_roles_id_fk": {
-          "name": "users_role_id_roles_id_fk",
+        "users_tenantId_tenants_id_fk": {
+          "name": "users_tenantId_tenants_id_fk",
           "tableFrom": "users",
-          "tableTo": "roles",
+          "tableTo": "tenants",
           "columnsFrom": [
-            "role_id"
+            "tenantId"
           ],
           "columnsTo": [
             "id"
           ],
-          "onDelete": "set null",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -319,16 +327,15 @@
     }
   },
   "enums": {
-    "public.user_permission": {
-      "name": "user_permission",
+    "public.permission_action": {
+      "name": "permission_action",
       "schema": "public",
       "values": [
-        "tenants:read",
-        "tenants:read_self",
-        "tenants:create",
-        "tenants:update",
-        "tenants:update_self",
-        "tenants:delete"
+        "tenants:read:global",
+        "tenants:create:global",
+        "tenants:update:global",
+        "tenants:delete:global",
+        "tenants:read:tenant"
       ]
     }
   },
