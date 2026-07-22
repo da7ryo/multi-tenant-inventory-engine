@@ -15,7 +15,7 @@ export async function findUserByEmail(params: FindUserByEmailParams) {
         columns: {
           id: true,
           name: true,
-          municipalityId: true,
+          tenantId: true,
           createdAt: true,
           updatedAt: true,
         },
