@@ -1,8 +1,11 @@
-import { HttpStatusCode, HttpStatusCodeText } from "../http";
+import {
+  HTTP_STATUS_CODE,
+  HTTP_STATUS_CODE_TEXT,
+} from "../http/http.constants";
 
 export class AppError extends Error {
-  statusCode: HttpStatusCode;
-  status: HttpStatusCodeText;
+  statusCode: HTTP_STATUS_CODE;
+  status: HTTP_STATUS_CODE_TEXT;
   payload?: Record<string, any>;
   isOperational: boolean;
   [key: string]: any;
@@ -16,8 +19,8 @@ export class AppError extends Error {
 
     this.statusCode = statusCode;
     this.status = `${statusCode}`.startsWith("4")
-      ? HttpStatusCodeText.FAIL
-      : HttpStatusCodeText.ERROR;
+      ? HTTP_STATUS_CODE_TEXT.FAIL
+      : HTTP_STATUS_CODE_TEXT.ERROR;
     this.payload = payload;
     this.isOperational = true;
 
