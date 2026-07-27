@@ -10,10 +10,10 @@ import {
 import { PERMISSION_ACTION } from "./db.constants";
 
 const timestamps = {
-  createdAt: timestamp("created_at", { withTimezone: true })
+  createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
     .defaultNow()
     .notNull(),
-  updatedAt: timestamp("updated_at", { withTimezone: true })
+  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" })
     .defaultNow()
     .notNull(),
 };
