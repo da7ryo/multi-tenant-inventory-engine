@@ -10,6 +10,7 @@ import {
   GetMeResponseValidator,
   RefreshTokenRequestCookiesValidator,
   RefreshTokenResponseValidator,
+  LogoutUserResponseValidator,
 } from "./users.validator";
 
 export type UserRead = z.infer<typeof UserReadValidator>;
@@ -41,3 +42,5 @@ export type RefreshTokenRequestCookies = z.infer<
 export type RefreshTokenResponse = z.infer<
   typeof RefreshTokenResponseValidator
 >;
+
+export type LogoutUserResponse = z.infer<typeof LogoutUserResponseValidator>;

@@ -10,6 +10,7 @@ import ms from "ms";
 import {
   GetMeResponseValidator,
   LoginUserResponseValidator,
+  LogoutUserResponseValidator,
   RefreshTokenResponseValidator,
 } from "./users.validator";
 import { REFRESH_TOKEN_COOKIE_NAME } from "./users.constants";
@@ -72,6 +73,21 @@ export async function refreshToken(_req: Request, res: Response) {
   const parsedResponse = RefreshTokenResponseValidator.parse(response);
 
   setRefreshTokenCookie(res, data.refreshToken);
+
+  res.json(parsedResponse);
+}
+
+export async function logoutUser(_req: Request, res: Response) {
+  clearRefreshTokenCookie(res);
+
+  const response = {
+    success: HTTP_STATUS_CODE_TEXT.SUCCESS,
+    data: {
+      message: "Logged out successfully",
+    },
+  };
+
+  const parsedResponse = LogoutUserResponseValidator.parse(response);
 
   res.json(parsedResponse);
 }

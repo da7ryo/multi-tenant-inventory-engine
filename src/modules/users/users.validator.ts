@@ -70,3 +70,14 @@ export const RefreshTokenResponseValidator = z
     data: UserAuthInfoValidator,
   })
   .openapi("RefreshTokenResponse");
+
+export const LogoutUserResponseValidator = z
+  .object({
+    success: z.literal(HTTP_STATUS_CODE_TEXT.SUCCESS),
+    data: z
+      .object({
+        message: z.string(),
+      })
+      .openapi("LogoutUserResponseData"),
+  })
+  .openapi("LogoutUserResponse");
