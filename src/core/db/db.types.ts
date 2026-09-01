@@ -15,6 +15,10 @@ export type PermissionAction =
 //Tenants
 export type TenantDb = InferSelectModel<typeof tenantsTable>;
 export type TenantCreateDb = InferInsertModel<typeof tenantsTable>;
+export type InsertTenantParams = {
+  dbClient: DbClient;
+  tenantInsertData: TenantCreateDb;
+};
 
 //Users
 export type FindUserByEmailOptions = {

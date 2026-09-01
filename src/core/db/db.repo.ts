@@ -1,8 +1,12 @@
 // **** USERS ****
 
 import { eq } from "drizzle-orm";
-import { usersTable } from "./db.tables";
-import { FindUserByEmailParams } from "./db.types";
+import { tenantsTable, usersTable } from "./db.tables";
+import {
+  FindUserByEmailParams,
+  InsertTenantParams,
+  TenantDb,
+} from "./db.types";
 
 export async function findUserByEmail(params: FindUserByEmailParams) {
   const { dbClient, options } = params;
@@ -43,4 +47,17 @@ export async function findUserByEmail(params: FindUserByEmailParams) {
       ),
     },
   };
+}
+
+// tenants
+
+export async function insertTenant(params: InsertTenantParams) {
+  const { dbClient, tenantInsertData } = params;
+
+  const createdTenant = await dbClient
+    .insert(tenantsTable)
+    .values(tenantInsertData)
+    .returning();
+
+  return createdTenant[0] as TenantDb;
 }
