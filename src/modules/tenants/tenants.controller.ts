@@ -3,14 +3,22 @@ import {
   HTTP_STATUS_CODE_TEXT,
   HTTP_STATUS_CODE,
 } from "../../core/http/http.constants";
-import { CreateTenantRequestBody } from "./tenants.types";
-import { createTenant as createTenantService } from "./tenants.service";
+import {
+  CreateTenantRequestBody,
+  GetTenantRequestQuery,
+} from "./tenants.types";
+import {
+  createTenant as createTenantService,
+  getTenants as getTenantsService,
+} from "./tenants.service";
 import { CreateTenantResponseValidator } from "./tenants.validator";
 
 export async function getTenants(_req: Request, res: Response) {
-  console.log(res.locals.reqQuery);
+  const reqQuery = res.locals.reqQuery as GetTenantRequestQuery;
 
-  const response = { success: HTTP_STATUS_CODE_TEXT.SUCCESS, data: [] };
+  const data = await getTenantsService({ reqQuery });
+
+  const response = { success: HTTP_STATUS_CODE_TEXT.SUCCESS, data };
 
   res.json(response);
 }

@@ -22,7 +22,7 @@ export function buildQueryFilterFieldValidator<T extends z.ZodTypeAny>(
     validator,
     z.object({
       eq: validator.optional(),
-      ne: validator.optional(),
+      neq: validator.optional(),
       gt: validator.optional(),
       gte: validator.optional(),
       lt: validator.optional(),
@@ -39,11 +39,13 @@ export function buildQuerySortFieldValidator<T extends string>(
   allowedFields: readonly T[],
   defaultSort: string,
 ) {
+  // ["firstName", "lastName", "age"]
   const allowedSortValues = allowedFields.flatMap((field) => [
     field,
     `-${field}`,
   ]);
 
+  // [["firstName", "-firstName"],["lastName", "-lastName"],["age", "-age"]]
   const sortEnum = z.enum(allowedSortValues);
 
   return z.preprocess(
