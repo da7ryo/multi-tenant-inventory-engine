@@ -8,6 +8,8 @@ import { decodeToken } from "./users.utils";
 import { HTTP_STATUS_CODE } from "../../core/http/http.constants";
 import { CONFIG } from "../../core/config";
 import { getUserByEmail } from "./users.service";
+import { PermissionAction } from "../../core/db/db.types";
+import { PERMISSION_SCOPE } from "../../core/db/db.constants";
 
 export function validateLoginUserRequestInput(
   req: Request,
@@ -55,6 +57,42 @@ export async function protect(req: Request, res: Response, next: NextFunction) {
 
   res.locals.user = currentUser;
   next();
+}
+
+export function restrictTo(allowedPermissionActions: PermissionAction[]) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const { user } = res.locals;
+
+    const permissionActions = user?.role.permissions
+      .map((permission) => permission.action)
+      .filter((permissionAction) =>
+        allowedPermissionActions.includes(permissionAction),
+      );
+
+    if (!permissionActions?.length) {
+      throw new AppError(
+        "You are not authorized to access this resource",
+        HTTP_STATUS_CODE.FORBIDDEN,
+      );
+    }
+
+    const globalPermissionActions = permissionActions.filter(
+      (permissionAction) => permissionAction.endsWith(PERMISSION_SCOPE.Global),
+    );
+
+    if (globalPermissionActions.length) {
+      return next();
+    }
+
+    if (user?.tenantId === req.params.tenantId) {
+      return next();
+    }
+
+    throw new AppError(
+      "You are not authorized to access this resource",
+      HTTP_STATUS_CODE.FORBIDDEN,
+    );
+  };
 }
 
 export function validateRefreshTokenRequestInput(
