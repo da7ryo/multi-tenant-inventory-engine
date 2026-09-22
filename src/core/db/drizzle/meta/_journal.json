@@ -8,6 +8,20 @@
       "when": 1784645021198,
       "tag": "0000_demonic_captain_britain",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1789800581467,
+      "tag": "0001_last_gabe_jones",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1789897709036,
+      "tag": "0002_overconfident_kronos",
+      "breakpoints": true
     }
   ]
 }

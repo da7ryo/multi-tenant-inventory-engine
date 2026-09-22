@@ -34,11 +34,52 @@ export const tenantsTable = pgTable("tenants", {
 });
 
 export const permissionActionEnum = pgEnum("permission_action", [
+  // Tenants
   PERMISSION_ACTION.TenantsReadGlobal,
   PERMISSION_ACTION.TenantsCreateGlobal,
   PERMISSION_ACTION.TenantsUpdateGlobal,
   PERMISSION_ACTION.TenantsDeleteGlobal,
   PERMISSION_ACTION.TenantsReadTenant,
+
+  // Categories
+  PERMISSION_ACTION.CategoriesReadGlobal,
+  PERMISSION_ACTION.CategoriesCreateGlobal,
+  PERMISSION_ACTION.CategoriesUpdateGlobal,
+  PERMISSION_ACTION.CategoriesDeleteGlobal,
+  PERMISSION_ACTION.CategoriesReadTenant,
+  PERMISSION_ACTION.CategoriesCreateTenant,
+  PERMISSION_ACTION.CategoriesUpdateTenant,
+  PERMISSION_ACTION.CategoriesDeleteTenant,
+
+  // Products
+  PERMISSION_ACTION.ProductsReadGlobal,
+  PERMISSION_ACTION.ProductsCreateGlobal,
+  PERMISSION_ACTION.ProductsUpdateGlobal,
+  PERMISSION_ACTION.ProductsDeleteGlobal,
+  PERMISSION_ACTION.ProductsReadTenant,
+  PERMISSION_ACTION.ProductsCreateTenant,
+  PERMISSION_ACTION.ProductsUpdateTenant,
+  PERMISSION_ACTION.ProductsDeleteTenant,
+
+  // Warehouses
+  PERMISSION_ACTION.WarehousesReadGlobal,
+  PERMISSION_ACTION.WarehousesCreateGlobal,
+  PERMISSION_ACTION.WarehousesUpdateGlobal,
+  PERMISSION_ACTION.WarehousesDeleteGlobal,
+  PERMISSION_ACTION.WarehousesReadTenant,
+  PERMISSION_ACTION.WarehousesCreateTenant,
+  PERMISSION_ACTION.WarehousesUpdateTenant,
+  PERMISSION_ACTION.WarehousesDeleteTenant,
+
+  // Suppliers
+  PERMISSION_ACTION.SuppliersReadGlobal,
+  PERMISSION_ACTION.SuppliersCreateGlobal,
+  PERMISSION_ACTION.SuppliersUpdateGlobal,
+  PERMISSION_ACTION.SuppliersDeleteGlobal,
+  PERMISSION_ACTION.SuppliersReadTenant,
+  PERMISSION_ACTION.SuppliersCreateTenant,
+  PERMISSION_ACTION.SuppliersUpdateTenant,
+  PERMISSION_ACTION.SuppliersDeleteTenant,
 ]);
 
 export const permissionsTable = pgTable("permissions", {
